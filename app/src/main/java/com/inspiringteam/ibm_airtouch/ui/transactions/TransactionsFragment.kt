@@ -14,9 +14,8 @@ import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_transactions.*
 import javax.inject.Inject
 import android.widget.ArrayAdapter
-
-
-
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 
 @ActivityScoped
 class TransactionsFragment @Inject constructor() : DaggerFragment(), TransactionsContract.View {
@@ -37,6 +36,16 @@ class TransactionsFragment @Inject constructor() : DaggerFragment(), Transaction
 
         presenter.subscribe(this)
         presenter.getProducts()
+
+        spinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View, position: Int, id: Long) {
+                presenter.getRelatedTransactions(parentView.getItemAtPosition(position).toString())
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>) {
+            }
+
+        }
     }
 
     override fun onPause() {
@@ -48,18 +57,13 @@ class TransactionsFragment @Inject constructor() : DaggerFragment(), Transaction
     override fun showProducts(list: List<String>) {
         // Populate spinner with products
         spinner.adapter  = ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, list)
-        
+
     }
 
-    override fun showRelatedTransactions(productName: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun showRelatedTransactions(list: List<Transaction>) {
+        var list2 = list
     }
 
-    override fun showTransactions(transactions: List<Transaction>) {
-        for(t in transactions){
-            Log.d("FOUND TRANSACTION ", t.productName)
-        }
-    }
 
     override fun showError() {
        System.out.println("error ibm")

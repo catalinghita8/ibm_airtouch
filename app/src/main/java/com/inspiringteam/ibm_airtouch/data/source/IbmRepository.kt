@@ -25,6 +25,14 @@ class IbmRepository @Inject constructor(@Remote val remoteDataSource: IbmDataSou
 
     }
 
+    fun getRelatedTransactions(productName: String): List<Transaction>{
+        val list = ArrayList<Transaction>()
+        for(t in transactionList){
+            if(t.productName.equals(productName)) list.add(t)
+        }
+
+        return list
+    }
 
 
 }

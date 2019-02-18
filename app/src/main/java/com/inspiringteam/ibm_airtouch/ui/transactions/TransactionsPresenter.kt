@@ -11,21 +11,26 @@ import javax.inject.Inject
 class TransactionsPresenter @Inject constructor(val repository: IbmRepository) :
         BasePresenter<TransactionsContract.View>(),
         TransactionsContract.Presenter {
+    lateinit var listOfProducts: List<String>
     val disposable: CompositeDisposable = CompositeDisposable()
 
+    override
     fun getProducts(){
         disposable.add(
-
                 repository.getProducts().subscribe(
                 // onNext
-                {
-                    list -> view?.showProducts(removeDuplicates(ArrayList(list)))
-                },
+                { list ->
+                    // Caching purposes
+                    listOfProducts = list
+                    view?.showProducts(removeDuplicates(ArrayList(list))) },
                 // onError
-                {
-                    error -> Log.d("ERROR PARSING DATA ", error.toString())
+                { error -> Log.d("ERROR PARSING DATA ", error.toString()) }
+                ))
+    }
 
-                }))
+    override
+    fun getRelatedTransactions(productName: String){
+        view?.showRelatedTransactions(repository.getRelatedTransactions(productName))
     }
 
     private fun removeDuplicates(list: ArrayList<String>): List<String> {
