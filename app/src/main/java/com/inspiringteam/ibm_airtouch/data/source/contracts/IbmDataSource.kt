@@ -4,5 +4,5 @@ import com.inspiringteam.ibm_airtouch.data.models.Transaction
 import io.reactivex.Single
 
 interface IbmDataSource {
-    fun getTransactions(): Single<List<Transaction>>
+    fun getProducts(): Single<List<Transaction>>
 }

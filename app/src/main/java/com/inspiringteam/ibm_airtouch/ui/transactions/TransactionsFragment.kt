@@ -7,12 +7,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.inspiringteam.ibm_airtouch.R
 import com.inspiringteam.ibm_airtouch.data.models.Transaction
 import com.inspiringteam.ibm_airtouch.di.scopes.ActivityScoped
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.fragment_transactions.*
 import javax.inject.Inject
+import android.widget.ArrayAdapter
+
+
+
 
 @ActivityScoped
 class TransactionsFragment @Inject constructor() : DaggerFragment(), TransactionsContract.View {
@@ -32,11 +36,19 @@ class TransactionsFragment @Inject constructor() : DaggerFragment(), Transaction
         super.onResume()
 
         presenter.subscribe(this)
-        presenter.getTransactions()
+        presenter.getProducts()
     }
 
-    override fun showProducts() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onPause() {
+        super.onPause()
+
+        presenter.unsubscribe()
+    }
+
+    override fun showProducts(list: List<String>) {
+        // Populate spinner with products
+        spinner.adapter  = ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, list)
+        
     }
 
     override fun showRelatedTransactions(productName: String) {

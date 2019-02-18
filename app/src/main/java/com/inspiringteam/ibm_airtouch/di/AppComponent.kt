@@ -2,6 +2,7 @@ package com.inspiringteam.ibm_airtouch.di
 
 import android.app.Application
 import com.inspiringteam.ibm_airtouch.App
+import com.inspiringteam.ibm_airtouch.data.IbmRepositoryModule
 import com.inspiringteam.ibm_airtouch.di.scopes.AppScoped
 import com.inspiringteam.ibm_airtouch.ui.transactions.TransactionsModule
 import dagger.BindsInstance
@@ -11,6 +12,7 @@ import dagger.android.support.AndroidSupportInjectionModule
 
 @AppScoped
 @Component(modules = [AppModule::class,
+    IbmRepositoryModule::class,
     ActivityBindingModule::class,
     AndroidSupportInjectionModule::class])
 interface AppComponent : AndroidInjector<App> {

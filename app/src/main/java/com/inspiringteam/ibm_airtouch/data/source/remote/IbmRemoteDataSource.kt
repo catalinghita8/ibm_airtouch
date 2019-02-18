@@ -13,7 +13,7 @@ import javax.inject.Inject
 class IbmRemoteDataSource @Inject constructor(val apiService: IbmAPI): IbmDataSource {
 
     override
-    fun getTransactions(): Single<List<Transaction>> {
+    fun getProducts(): Single<List<Transaction>> {
         return apiService.getTransactions()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
