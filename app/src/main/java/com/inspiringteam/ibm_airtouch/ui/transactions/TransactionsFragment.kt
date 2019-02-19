@@ -1,6 +1,7 @@
 package com.inspiringteam.ibm_airtouch.ui.transactions
 
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.inspiringteam.ibm_airtouch.R
 import com.inspiringteam.ibm_airtouch.data.models.Transaction
 import com.inspiringteam.ibm_airtouch.di.scopes.ActivityScoped
@@ -21,6 +23,8 @@ import javax.inject.Inject
 class TransactionsFragment @Inject constructor() : DaggerFragment(), TransactionsContract.View {
     @Inject
     lateinit var presenter: TransactionsPresenter
+
+    private var snackbar: Snackbar? = null
 
     private lateinit var viewAdapter: TransactionsAdapter
 
@@ -44,7 +48,6 @@ class TransactionsFragment @Inject constructor() : DaggerFragment(), Transaction
         super.onResume()
 
         presenter.subscribe(this)
-        presenter.getProducts()
 
         spinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View, position: Int, id: Long) {
@@ -77,13 +80,15 @@ class TransactionsFragment @Inject constructor() : DaggerFragment(), Transaction
         transactionsRecyclerView.adapter = viewAdapter
     }
 
-    override fun showRelatedTransactionsSum(value: String){
+    override fun showRelatedTransactionsSum(value: String) {
         tvSum.text = value
     }
 
 
     override fun showError() {
-        // TODO show snackbar
-        System.out.println("error ibm")
+        snackbar = Snackbar.make(view!!,
+            getString(R.string.error_message), Snackbar.LENGTH_LONG)
+        snackbar?.view?.setBackgroundColor(Color.RED)
+        snackbar?.show()
     }
 }

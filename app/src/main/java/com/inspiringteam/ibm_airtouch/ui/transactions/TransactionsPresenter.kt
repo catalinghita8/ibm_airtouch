@@ -4,29 +4,52 @@ import android.util.Log
 import com.inspiringteam.ibm_airtouch.data.models.ExchangeRate
 import com.inspiringteam.ibm_airtouch.data.models.Transaction
 import com.inspiringteam.ibm_airtouch.data.source.IbmRepository
+import com.inspiringteam.ibm_airtouch.data.source.contracts.IbmRepositorySource
 import com.inspiringteam.ibm_airtouch.di.scopes.ActivityScoped
 import com.inspiringteam.ibm_airtouch.mvp.BasePresenter
 import com.inspiringteam.ibm_airtouch.utils.Constants
 import io.reactivex.disposables.CompositeDisposable
+import uk.co.transferx.app.util.schedulers.BaseSchedulerProvider
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.concurrent.CopyOnWriteArrayList
 import javax.inject.Inject
 
 @ActivityScoped
-class TransactionsPresenter @Inject constructor(val repository: IbmRepository) :
+class TransactionsPresenter @Inject constructor(val repository: IbmRepositorySource, val schedulerProvider: BaseSchedulerProvider) :
         BasePresenter<TransactionsContract.View>(),
         TransactionsContract.Presenter {
     lateinit var listOfProducts: List<String>
     lateinit var listOfRates: ArrayList<ExchangeRate>
-    val disposable: CompositeDisposable = CompositeDisposable()
+    var disposable : CompositeDisposable? = null
+
+
+    override
+    fun subscribe(view: TransactionsContract.View){
+        super.subscribe(view)
+
+        if (disposable == null) disposable = CompositeDisposable()
+
+        getProducts()
+    }
+
+    override fun unsubscribe() {
+        super.unsubscribe()
+        disposable?.let {
+            disposable!!.dispose()
+            disposable = null
+        }
+    }
 
     override
     fun getProducts(){
         // Get rates beforehand to assure faster retrieval
 
-        disposable.add(
-                repository.getRates().subscribe(
+        disposable?.add(
+                repository.getRates()
+                    .subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.ui())
+                    .subscribe(
                         // onNext
                         { list ->
                             // Caching purposes
@@ -36,8 +59,11 @@ class TransactionsPresenter @Inject constructor(val repository: IbmRepository) :
                         { view?.showError() }
                 ))
 
-        disposable.add(
-                repository.getProducts().subscribe(
+        disposable?.add(
+                repository.getProducts()
+                    .subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.ui())
+                    .subscribe(
                 // onNext
                 { list ->
                     // Caching purposes
