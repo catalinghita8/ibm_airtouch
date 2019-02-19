@@ -1,5 +1,6 @@
 package com.inspiringteam.ibm_airtouch.data.source.remote
 
+import com.inspiringteam.ibm_airtouch.data.models.ExchangeRate
 import com.inspiringteam.ibm_airtouch.data.models.Transaction
 import com.inspiringteam.ibm_airtouch.data.source.contracts.IbmDataSource
 import com.inspiringteam.ibm_airtouch.di.scopes.AppScoped
@@ -17,8 +18,13 @@ class IbmRemoteDataSource @Inject constructor(val apiService: IbmAPI): IbmDataSo
         return apiService.getTransactions()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+    }
 
-
+    override
+    fun getRates(): Single<List<ExchangeRate>> {
+        return apiService.getRates()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
 }

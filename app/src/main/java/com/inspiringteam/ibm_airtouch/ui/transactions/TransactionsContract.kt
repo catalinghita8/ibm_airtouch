@@ -9,6 +9,8 @@ interface TransactionsContract {
 
         fun showRelatedTransactions(list: List<Transaction>)
 
+        fun showRelatedTransactionsSum(value: String)
+
         fun showError()
     }
 
@@ -16,5 +18,7 @@ interface TransactionsContract {
         fun getProducts()
 
         fun getRelatedTransactions(productName: String)
+
+        fun getRelatedTransactionsSum(list: List<Transaction>)
     }
 }

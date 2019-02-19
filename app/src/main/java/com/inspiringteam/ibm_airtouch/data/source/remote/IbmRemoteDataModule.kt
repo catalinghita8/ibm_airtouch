@@ -8,6 +8,7 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.inspiringteam.ibm_airtouch.di.scopes.AppScoped
+import com.inspiringteam.ibm_airtouch.utils.Constants
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -33,7 +34,7 @@ class IbmRemoteDataModule {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl("http://gnb.dev.airtouchmedia.com")
+                .baseUrl(Constants.API_HTTP)
                 .client(okHttpClient)
                 .build()
     }

@@ -1,5 +1,6 @@
 package com.inspiringteam.ibm_airtouch.data.source
 
+import com.inspiringteam.ibm_airtouch.data.models.ExchangeRate
 import com.inspiringteam.ibm_airtouch.data.models.Transaction
 import com.inspiringteam.ibm_airtouch.data.scopes.Remote
 import com.inspiringteam.ibm_airtouch.data.source.contracts.IbmDataSource
@@ -12,7 +13,6 @@ import javax.inject.Inject
 class IbmRepository @Inject constructor(@Remote val remoteDataSource: IbmDataSource){
      lateinit var transactionList: ArrayList<Transaction>
 
-
     // Offline strategy can be implemented here through a local source
     fun getProducts(): Single<List<String>> {
         return remoteDataSource.getProducts().flatMap {
@@ -22,7 +22,6 @@ class IbmRepository @Inject constructor(@Remote val remoteDataSource: IbmDataSou
             Observable.fromIterable(list)
                     .map { item -> item.productName }.toList()
         }
-
     }
 
     fun getRelatedTransactions(productName: String): List<Transaction>{
@@ -30,9 +29,11 @@ class IbmRepository @Inject constructor(@Remote val remoteDataSource: IbmDataSou
         for(t in transactionList){
             if(t.productName.equals(productName)) list.add(t)
         }
-
         return list
     }
 
+    fun getRates(): Single<List<ExchangeRate>>{
+        return remoteDataSource.getRates()
+    }
 
 }

@@ -33,6 +33,7 @@ class TransactionsFragment @Inject constructor() : DaggerFragment(), Transaction
         var transactionsRecyclerView = rootView.findViewById(R.id.transactionsRecyclerView) as RecyclerView
         val layoutManager = LinearLayoutManager(activity)
         transactionsRecyclerView.layoutManager = layoutManager
+        transactionsRecyclerView.adapter = TransactionsAdapter(ArrayList<Transaction>())
 
         transactionsRecyclerView.apply { setHasFixedSize(true) }
         // Inflate the layout for this fragment
@@ -69,13 +70,20 @@ class TransactionsFragment @Inject constructor() : DaggerFragment(), Transaction
     }
 
     override fun showRelatedTransactions(list: List<Transaction>) {
+        // Now that we have the transactions, let's require the sum as well
+        presenter.getRelatedTransactionsSum(list)
+
         viewAdapter = TransactionsAdapter(list)
         transactionsRecyclerView.adapter = viewAdapter
+    }
 
+    override fun showRelatedTransactionsSum(value: String){
+        tvSum.text = value
     }
 
 
     override fun showError() {
+        // TODO show snackbar
         System.out.println("error ibm")
     }
 }
