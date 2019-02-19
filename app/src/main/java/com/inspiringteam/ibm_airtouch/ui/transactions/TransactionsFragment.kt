@@ -29,8 +29,8 @@ class TransactionsFragment @Inject constructor() : DaggerFragment(), Transaction
     private lateinit var viewAdapter: TransactionsAdapter
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_transactions, container, false)
 
@@ -86,8 +86,10 @@ class TransactionsFragment @Inject constructor() : DaggerFragment(), Transaction
 
 
     override fun showError() {
-        snackbar = Snackbar.make(view!!,
-            getString(R.string.error_message), Snackbar.LENGTH_LONG)
+        snackbar = Snackbar.make(
+            view!!,
+            getString(R.string.error_message), Snackbar.LENGTH_LONG
+        )
         snackbar?.view?.setBackgroundColor(Color.RED)
         snackbar?.show()
     }

@@ -5,8 +5,6 @@ import com.inspiringteam.ibm_airtouch.data.models.Transaction
 import com.inspiringteam.ibm_airtouch.data.source.IbmRepository
 import com.inspiringteam.ibm_airtouch.data.source.contracts.IbmDataSource
 import com.inspiringteam.ibm_airtouch.data.source.contracts.IbmRepositorySource
-import com.inspiringteam.ibm_airtouch.data.source.remote.IbmAPI
-import com.inspiringteam.ibm_airtouch.data.source.remote.IbmRemoteDataSource
 import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
@@ -34,7 +32,7 @@ class IbmRepositoryTest {
         listOf<ExchangeRate>(ExchangeRate("", "CAD", "1.67"), ExchangeRate("EUR", "CAD", "1.67"))
 
     @Before
-    fun setup(){
+    fun setup() {
         MockitoAnnotations.initMocks(this)
         repository = IbmRepository(remoteSource)
     }

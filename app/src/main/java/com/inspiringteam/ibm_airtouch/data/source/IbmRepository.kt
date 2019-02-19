@@ -11,32 +11,31 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 @AppScoped
-class IbmRepository @Inject constructor(@Remote val remoteDataSource: IbmDataSource): IbmRepositorySource{
-     lateinit var transactionList: ArrayList<Transaction>
+class IbmRepository @Inject constructor(@Remote val remoteDataSource: IbmDataSource) : IbmRepositorySource {
+    lateinit var transactionList: ArrayList<Transaction>
 
     // Offline strategy can be implemented here through a local source
     override
     fun getProducts(): Single<List<String>> {
-        return remoteDataSource.getProducts().flatMap {
-            list ->
+        return remoteDataSource.getProducts().flatMap { list ->
             // Cache intermediate result
-            transactionList =  ArrayList(list)
+            transactionList = ArrayList(list)
             Observable.fromIterable(list)
-                    .map { item -> item.productName }.toList()
+                .map { item -> item.productName }.toList()
         }
     }
 
     override
-    fun getRelatedTransactions(productName: String): List<Transaction>{
+    fun getRelatedTransactions(productName: String): List<Transaction> {
         val list = ArrayList<Transaction>()
-        for(t in transactionList){
-            if(t.productName.equals(productName)) list.add(t)
+        for (t in transactionList) {
+            if (t.productName.equals(productName)) list.add(t)
         }
         return list
     }
 
     override
-    fun getRates(): Single<List<ExchangeRate>>{
+    fun getRates(): Single<List<ExchangeRate>> {
         return remoteDataSource.getRates()
     }
 

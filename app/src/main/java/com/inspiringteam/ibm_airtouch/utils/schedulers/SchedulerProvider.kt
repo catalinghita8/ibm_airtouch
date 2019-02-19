@@ -1,10 +1,8 @@
 package uk.co.transferx.app.util.schedulers
 
+import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.schedulers.Schedulers.computation
-import io.reactivex.schedulers.Schedulers.io
-import io.reactivex.Scheduler
 
 
 /**

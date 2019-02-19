@@ -1,7 +1,7 @@
 package uk.co.transferx.app.util.schedulers
+
 import androidx.annotation.NonNull
 import io.reactivex.Scheduler
-
 
 
 /**

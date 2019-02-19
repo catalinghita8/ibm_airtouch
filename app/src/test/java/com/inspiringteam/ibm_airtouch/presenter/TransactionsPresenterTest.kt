@@ -2,20 +2,17 @@ package com.inspiringteam.ibm_airtouch.presenter
 
 import com.inspiringteam.ibm_airtouch.data.models.ExchangeRate
 import com.inspiringteam.ibm_airtouch.data.models.Transaction
-import com.inspiringteam.ibm_airtouch.data.source.IbmRepository
 import com.inspiringteam.ibm_airtouch.data.source.contracts.IbmRepositorySource
 import com.inspiringteam.ibm_airtouch.ui.transactions.TransactionsContract
 import com.inspiringteam.ibm_airtouch.ui.transactions.TransactionsPresenter
 import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Matchers.any
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.times
 import org.mockito.MockitoAnnotations
 import uk.co.transferx.app.util.schedulers.ImmediateSchedulerProvider
-import org.mockito.Matchers.anyListOf
-import org.mockito.Mockito.times
 
 
 class TransactionsPresenterTest {
@@ -40,7 +37,7 @@ class TransactionsPresenterTest {
         listOf<ExchangeRate>(ExchangeRate("", "CAD", "1.67"), ExchangeRate("EUR", "CAD", "1.67"))
 
     @Before
-    fun setup(){
+    fun setup() {
         MockitoAnnotations.initMocks(this)
         presenter = TransactionsPresenter(repository, ImmediateSchedulerProvider())
     }
@@ -87,7 +84,7 @@ class TransactionsPresenterTest {
         Mockito.verify(view, times(2)).showError()
     }
 
-    private fun prepareSuccessfulViewAttach(){
+    private fun prepareSuccessfulViewAttach() {
         // Prepare successful mock response from API
         Mockito.`when`(repository.getProducts()).thenReturn(Single.just(rawListProducts))
 

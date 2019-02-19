@@ -8,7 +8,6 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import uk.co.transferx.app.util.schedulers.ImmediateSchedulerProvider
 
 class IbmRemoteDataSourceTest {
     // SUT
@@ -18,7 +17,7 @@ class IbmRemoteDataSourceTest {
     lateinit var ibmApi: IbmAPI
 
     @Before
-    fun setup(){
+    fun setup() {
         MockitoAnnotations.initMocks(this)
         source = IbmRemoteDataSource(ibmApi)
     }
