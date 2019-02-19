@@ -34,7 +34,7 @@ class TransactionsFragment @Inject constructor() : DaggerFragment(), Transaction
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_transactions, container, false)
 
-        var transactionsRecyclerView = rootView.findViewById(R.id.transactionsRecyclerView) as RecyclerView
+        val transactionsRecyclerView = rootView.findViewById(R.id.transactionsRecyclerView) as RecyclerView
         val layoutManager = LinearLayoutManager(activity)
         transactionsRecyclerView.layoutManager = layoutManager
         transactionsRecyclerView.adapter = TransactionsAdapter(ArrayList<Transaction>())
